@@ -24,3 +24,26 @@ jobs:
 
     - name: Run tests
       run: dotnet test --no-restore
+
+    - name: Run smoke tests
+      run: dotnet test --filter Category=Smoke
+    
+    - name: Run regression tests
+      run: dotnet test --filter Category=Regression
+
+    - name: Run system integration tests
+      run: dotnet test --filter Category=SIT
+
+    - name: Run tests with trx
+      run: dotnet test --logger trx
+
+    - name: Publish results
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: "**/*.trx"
+      
+    - name: Run tests with coverage
+      run: dotnet test /p:CollectCoverage=true
+
+
